@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Great number game</title>
+	<link rel="stylesheet" type="text/css" href="{{url_for('static',filename='style.css')}}">
+	<script type="text/javascript" src="{{url_for('static',filename='jquery.js')}}"></script>
+	<script type="text/javascript">
+		function hideForm(){
+			if($('#myDiv').hasClass('green'))
+			{
+				$('#f1').hide();
+			}
+		}
+
+		$(document).ready(function(){
+			hideForm();
+		});
+	</script>
+</head>
+<body>
+	<h1>Welcome to the Great number game</h1>
+	<p>I am thinking of a number between 1 and 100.</p>
+	<p>Take a guess!</p>
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                  <div id="myDiv" class="box {{session['color']}}">
+                    <h2>
+                    	{{ message }}
+                    </h2>
+                    {% if session['color'] == 'green' %}
+                    	<form action="/reset">
+                    		<button>Play again!</button>
+                    	</form>
+                    {% endif %}                    
+                  </div>
+                {% endfor %}
+            {% endif %}
+         {% endwith %}	
+	<form action="/num" method="post" id="f1">
+		<input type="text" name="guess" id="guess">
+		<input type="submit" name="Submit" id="submit">
+	</form>
+</body>
+</html>
